@@ -1,0 +1,113 @@
+You are now given some HLS pragma insertion assistants
+assistant 1: 99FAST FOURIER TRANSFORM
+starting with the 2 point DFT. Recall that the DFT performs a matrix vector multiplication, i.e.,
+G[] = S[][]·g[], where g[] is the input data, G[] is the frequency domain output data, and S[][] are
+the DFT coefficients. We follow the same notation for the coefficient matrix, and the input and
+output vectors as described in Chapter ??.
+For a 2 point DFT, the values of S are:
+(cid:20) W00 W01(cid:21)
+S = 2 2 (5.1)
+W10 W11
+2 2
+Here we use the notation W = e−j2π. The superscript on W denotes values that are added to
+the numerator and the subscript on the W indicates those values added in the denominator of the
+complex exponential. For example, W 423 = e−j2 4π·2·3 . This is similar to the s value used in the DFT
+−j2π
+discussion (Chapter ??) where s = e N . The relationship between s and W is s = W N.
+The e−j2π or W terms are often called twiddle factors. This term has its origin in the 1966
+paper by Gentleman and Sande [27]., assistant 2: void fft(DTYPE X R[SIZE], DTYPE X I[SIZE], DTYPE OUT R[SIZE], DTYPE OUT I[SIZE])
+{
+#pragma HLS dataflow
+DTYPE Stage1 R[SIZE], Stage1 I[SIZE];
+DTYPE Stage2 R[SIZE], Stage2 I[SIZE];
+DTYPE Stage3 R[SIZE], Stage3 I[SIZE];
+bit reverse(X R, X I, Stage1 R, Stage1 I);
+fft stage one(Stage1 R, Stage1 I, Stage2 R, Stage2 I);
+fft stages two(Stage2 R, Stage2 I, Stage3 R, Stage3 R);
+fft stage three(Stage3 R, Stage3 I, OUT R, OUT I);
+}
+Figure 5.7: The code divides an 8 point FFT into four stages, each of which is a separate function.
+The bit reverse function is the first stages. And there are three stages for the 8 point FFT.
+What is the latency of the reverse bits function when no directives are applied? What is the
+latency when the loop is pipelined? What is the latency when the whole function is pipelined?
+Itistemptingto“blindly”applydirectivesinordertoachieveabetterdesign. However,this
+can be counterproductive. The best designer has a deep understanding of both the application, assistant 3: int to double
+double
+int to double
+double
+sin/cos
+double
+double
+double
+double
+sample[i]
+N
+i
+/ x
+2 ∏
+w
+x j
+CORDIC x +
+sample[0] temp[0]
+sample[1] temp[1]
+sample[2] temp[2]
+. .
+. .
+. .
+sample[N-1] temp[N-1]
+Figure 4.16: A high level architectural diagram of the DFT as specified in the code from Figure
+4.15. This is not a comprehensive view of the architecture, e.g., it is missing components related
+to updating the loop counters i and j. It is meant to provide an approximate notion of how this
+architecture will be synthesized. Here we’ve assumed that floating point operators take 4 clock
+cycles.
+95DISCRETE FOURIER TRANSFORM
+j
+Loop Interval = 4 i temp real[0]
+temp real[1]
+sample[i]
+ Now try your best to Optimize the following code through inserting pragma hls lines
+
+void kernel_fdtd_2d(int tmax,int nx,int ny,float ex[60][80],float ey[60][80],float hz[60][80],float _fict_[40])
+{
+  int t;
+  int i;
+  int j;
+{
+    
+    
+    
+    for (t = 0; t < 40; t++) {
+      
+      for (j = 0; j < 80; j++) {
+        ey[0][j] = _fict_[t];
+      }
+      
+      
+      
+      for (i = 1; i < 60; i++) {
+        
+        for (j = 0; j < 80; j++) {
+          ey[i][j] = ey[i][j] - 0.5 * (hz[i][j] - hz[i - 1][j]);
+        }
+      }
+      
+      
+      
+      for (i = 0; i < 60; i++) {
+        
+        for (j = 1; j < 80; j++) {
+          ex[i][j] = ex[i][j] - 0.5 * (hz[i][j] - hz[i][j - 1]);
+        }
+      }
+      
+      
+      
+      for (i = 0; i < 60 - 1; i++) {
+        
+        for (j = 0; j < 80 - 1; j++) {
+          hz[i][j] = hz[i][j] - 0.7 * (ex[i][j + 1] - ex[i][j] + ey[i + 1][j] - ey[i][j]);
+        }
+      }
+    }
+  }
+}

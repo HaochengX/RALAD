@@ -1,0 +1,57 @@
+You are now given some HLS pragma insertion assistants
+assistant 1: for (i = N − 1; i > 0; i−−) {
+shift reg[i] = shift reg[i − 1];
+}
+shift reg[0] = x;
+acc = 0;
+MAC:, assistant 2: int ABij = 0;
+product: for(int k = 0; k < M; ++k) {
+ABij += A[i][k] ∗ B[k][j];
+}
+AB[i][j] = ABij;
+}
+}
+}
+Figure 7.1: A common three for loop structure for matrix multiplication. The outer for loops,
+labeledrowsandcols, iterateacrosstherowsandcolumnsoftheoutputmatrixAB. Theinnermost
+loop, labeled product multiplies the appropriate elements of one row of A and one column of B and
+accumulates them until it has the result for the element in AB .
+Matrix multiplication is a fundamental operation in numerical algorithms. Computing the
+product between large matrices can take a significant amount of time. Therefore, it is critically
+important part of many of problems in numerical computing. Fundamentally, matrices repre-
+sent linear transforms between vector spaces; matrix multiplication provides way to compose the
+linear transforms. Applications include linearly changing coordinates (e.g., translation, rotation, assistant 3: void matrixmul(int A[N][M], int B[M][P], int AB[N][P]) {
+#pragma HLS ARRAY RESHAPE variable=A complete dim=2
+#pragma HLS ARRAY RESHAPE variable=B complete dim=1
+/∗ for each row and column of AB ∗/
+row: for(int i = 0; i < N; ++i) {
+col: for(int j = 0; j < P; ++j) {
+#pragma HLS PIPELINE II=1
+/∗ compute (AB)i,j ∗/
+ Now try your best to Optimize the following code through inserting pragma hls lines
+
+void kernel_atax(int m,int n,float A[116][124],float x[124],float y[124],float tmp[116])
+{
+  int i;
+  int j;
+{
+    
+    for (i = 0; i < 124; i++) {
+      y[i] = ((float )0);
+    }
+    
+    
+    
+    for (i = 0; i < 116; i++) {
+      tmp[i] = 0.0;
+      
+      for (j = 0; j < 124; j++) {
+        tmp[i] = tmp[i] + A[i][j] * x[j];
+      }
+      
+      for (j = 0; j < 124; j++) {
+        y[j] = y[j] + A[i][j] * tmp[i];
+      }
+    }
+  }
+}

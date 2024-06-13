@@ -1,0 +1,77 @@
+INFO-FLOW: Workspace /home/haotian/RALAD/kernel_adi/solution1 opened at Wed Jun 12 20:06:36 PDT 2024
+Execute       send_msg_by_id INFO @200-1505@%s%s default  vivado 
+INFO: [HLS 200-1505] Using default flow_target 'vivado'
+Execute     set_part xcu250-figd2104-2L-e 
+INFO: [HLS 200-1510] Running: set_part xcu250-figd2104-2L-e 
+Execute       create_platform xcu250-figd2104-2L-e -board  
+DBG:HLSDevice: Trying to load device library: /tools/Xilinx/Vitis_HLS/2023.1/lib/lnx64.o/libxv_hlsvwrap.so
+DBG:HLSDevice: first parts/arch.xml in RDI_DATADIR: /tools/Xilinx/Vivado/2023.1/data/parts/arch.xml
+DBG:HLSDevice: init success
+INFO: [HLS 200-1611] Setting target device to 'xcu250-figd2104-2L-e'
+Command       create_platform done; 4.66 sec.
+Execute       source /tools/Xilinx/Vitis_HLS/2023.1/common/technology/xilinx/common/xilinx.gen 
+Execute         source /tools/Xilinx/Vitis_HLS/2023.1/common/technology/xilinx/interface/plb46.gen 
+Execute         source /tools/Xilinx/Vitis_HLS/2023.1/common/technology/xilinx/interface/axi4.gen 
+Execute         source /tools/Xilinx/Vitis_HLS/2023.1/common/technology/xilinx/interface/nativeAXI4.gen 
+Execute           source /tools/Xilinx/Vitis_HLS/2023.1/common/technology/xilinx/interface/saxilite.gen 
+Execute         source /tools/Xilinx/Vitis_HLS/2023.1/common/technology/xilinx/scripts/xilinxcoregen.gen 
+Execute         source /tools/Xilinx/Vitis_HLS/2023.1/common/technology/xilinx/interface/XilEDKCoreGen.gen 
+Execute         source /tools/Xilinx/Vitis_HLS/2023.1/common/technology/xilinx/ip/util.gen 
+Execute         source /tools/Xilinx/Vitis_HLS/2023.1/common/technology/xilinx/ip/xfft.gen 
+Execute         source /tools/Xilinx/Vitis_HLS/2023.1/common/technology/xilinx/ip/xfir.gen 
+Execute         source /tools/Xilinx/Vitis_HLS/2023.1/common/technology/xilinx/ip/dds_compiler.gen 
+Execute         source /tools/Xilinx/Vitis_HLS/2023.1/common/technology/xilinx/DSP48/dsp48.gen 
+Command       ap_source done; 0.12 sec.
+Execute       ap_part_info -name xcu250-figd2104-2L-e -data info 
+Execute       config_compile -quiet -complex-mul-dsp=0 
+Command     set_part done; 4.81 sec.
+Execute     create_clock -period 5.0ns 
+INFO: [HLS 200-1510] Running: create_clock -period 5.0ns 
+Execute       ap_set_clock -name default -period 5 -unit ns -default=false 
+INFO: [SYN 201-201] Setting up clock 'default' with a period of 5ns.
+Execute     csynth_design 
+INFO: [HLS 200-1510] Running: csynth_design 
+INFO-FLOW: Running SLX 'csynth' proc: ::SLX::run_csynth
+Execute       elaborate -effort=medium -skip_syncheck=0 -keep_printf=0 -skip_cdt=0 -skip_transform=0 -ng=0 -g=0 -opt_fp=0 -from_csynth_design=1 
+INFO: [HLS 200-111] Finished File checks and directory preparation: CPU user time: 0.08 seconds. CPU system time: 0 seconds. Elapsed time: 0.07 seconds; current allocated memory: 1.448 GB.
+Execute         set_directive_top kernel_adi -name=kernel_adi 
+Execute         source /tools/Xilinx/Vitis_HLS/2023.1/tps/tcl/tcllib1.11.1/yaml/huddle.tcl 
+Execute         source /tools/Xilinx/Vitis_HLS/2023.1/tps/tcl/tcllib1.11.1/yaml/json2huddle.tcl 
+Execute           source /tools/Xilinx/Vitis_HLS/2023.1/tps/tcl/tcllib1.11.1/try/try.tcl 
+INFO: [HLS 200-10] Analyzing design file '/home/haotian/RALAD/Retrieve-code-gpt4/kernel_adi/kernel_adi.c' ... 
+INFO-FLOW: Compiling one TU...
+INFO-FLOW: Handling /home/haotian/RALAD/Retrieve-code-gpt4/kernel_adi/kernel_adi.c as C
+Execute         ap_part_info -name xcu250-figd2104-2L-e -data info 
+INFO-FLOW: Running: GCC PP 39
+INFO-FLOW: Source preprocessing
+INFO-FLOW: run_clang exec: /tools/Xilinx/Vitis_HLS/2023.1/lnx64/tools/clang-3.9-csynth/bin/clang /home/haotian/RALAD/Retrieve-code-gpt4/kernel_adi/kernel_adi.c -foptimization-record-file=/home/haotian/RALAD/kernel_adi/solution1/.autopilot/db/kernel_adi.c.clang.diag.yml -mllvm -pass-remarks-missed=reflow|pasta|unroll -mllvm -pass-remarks=reflow|pasta|unroll|inline -fno-limit-debug-info -gcc-toolchain /tools/Xilinx/Vitis_HLS/2023.1/tps/lnx64/gcc-8.3.0 -fhls -fno-exceptions -insert-hls-directive=/home/haotian/RALAD/kernel_adi/solution1/.autopilot/db/all.directive.json -E -std=c++11 -fno-math-errno -c -emit-llvm -mllvm -disable-llvm-optzns -Werror=implicit-function-declaration -Werror=implicit-hls-streams -Werror=return-type -Wpragmas -Wunused-parameter -Wdump-hls-pragmas -Wno-error=dump-hls-pragmas -fgnu89-inline -target fpga64-xilinx-linux-gnu -D__VITIS_HLS__ -DAESL_SYN -D__SYNTHESIS__ -D__HLS_SYN__ -I /tools/Xilinx/Vitis_HLS/2023.1/common/technology/autopilot -I /tools/Xilinx/Vitis_HLS/2023.1/common/technology/autopilot/ap_sysc -include etc/autopilot_ssdm_op.h -D__DSP48E2__ -I /usr/include/x86_64-linux-gnu -o /home/haotian/RALAD/kernel_adi/solution1/.autopilot/db/kernel_adi.pp.0.c -hls-platform-db-name=/tools/Xilinx/Vitis_HLS/2023.1/common/technology/xilinx/common/platform.db -hls-platform-name=virtexuplus_medium -device-resource-info=BRAM_5376.000000_DSP_12288.000000_FF_3456000.000000_LUT_1728000.000000_SLICE_216000.000000_SLR_4.000000_URAM_1280.000000 -device-name-info=xcu250-figd2104-2L-e > /home/haotian/RALAD/kernel_adi/solution1/.autopilot/db/kernel_adi.c.clang.out.log 2> /home/haotian/RALAD/kernel_adi/solution1/.autopilot/db/kernel_adi.c.clang.err.log
+INFO-FLOW: Caught error in elaborate: 
+    while executing
+"ap_compile_CCPP $srcf $skip_transform CFLAGS $skip_cdt $objdir $is_xip"
+    (procedure "AP::ap_compile_one_tu_39" line 48)
+    invoked from within
+"AP::ap_compile_one_tu_39 $srcfile $skip_transform $dbgInfo $skip_cdt "$cflags""
+    ("foreach" body line 10)
+    invoked from within
+"foreach fentry $dut_files {
+        #puts "file: $fentry"
+        set fatt [lindex $fentry 1]
+        array set opt $fatt
+        set srcfile $opt(nam..."
+    (procedure "AP::compile_dut_files_39" line 18)
+    invoked from within
+"AP::compile_dut_files_39 $dut_files $dbgInfo $skip_cdt $skip_transform"
+    (procedure "AP::compile" line 103)
+    invoked from within
+"AP::compile 1 $skip_cdt $skip_transform"
+    (procedure "ap_internal_elaborate" line 83)
+    invoked from within
+"ap_internal_elaborate "
+Command       elaborate done; error code: 2; 0.33 sec.
+INFO-FLOW: Caught error in csynth_design: 
+    while executing
+"ap_internal_csynth_design "
+Command     csynth_design done; error code: 2; 0.4 sec.
+INFO: [HLS 200-111] Finished Command csynth_design CPU user time: 0.21 seconds. CPU system time: 0.18 seconds. Elapsed time: 0.4 seconds; current allocated memory: 0.457 MB.
+Command   ap_source done; error code: 1; 5.33 sec.
+Execute   cleanup_all 

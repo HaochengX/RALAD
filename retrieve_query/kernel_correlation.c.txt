@@ -1,0 +1,111 @@
+You are now given some HLS pragma insertion assistants
+assistant 1: K(n) = K = √ (3.24)
+i
+1+2−2i
+i=0 i=0
+and
+K = lim K(n) ≈ 0.6072529350088812561694 (3.25)
+n→∞
+The scaling factors for different iterations can be calculated in advance and stored in a table. If we
+always perform a fixed number of rotations, this is simply one constant. This correction could also
+be made in advance by scaling v appropriately before performing the rotations. Sometimes it is
+0
+ok to ignore this scaling, which results in a processing gain
+n−1
+1 (cid:89)(cid:112)
+A = = lim 1+2−2i ≈ 1.64676025812107 (3.26)
+K n→∞
+i=0
+At each iteration, we need to know the angle θ of the rotation that was just performed. This
+i
+is derived as θ = arctan2−i. We can precompute these values for each value of i and store them in
+i
+an on-chip memory and use them as a lookup table. Additionally, we have a control decision that
+determines whether the rotation is clockwise or counterclockwise, i.e., we must determine if σ is 1, assistant 2: n=0
+This is similar to Equation 5.13 with different indices, i.e., we replace k from Equation 5.13 with
+k +N/2. Using the same set of transformations that we did previously, we can move directly to
+the equivalent to Equation 5.16, but replacing all instances of k with k+N/2 which yields
+N/2−1 N/2−1
+(cid:88) −j2π(k+N/2)n −j2π(k+N/2) (cid:88) −j2π(k+N/2)n
+G[k+N/2] = g[2n]·e N/2 +e N · g[2n+1]·e N/2 (5.19)
+n=0 n=0
+We can reduce the complex exponential in the summations as follows:
+−j2π(k+N/2)n −j2πkn −j2π(N/2)n −j2πkn −j2πkn
+e N/2 = e N/2 ·e N/2 = e N/2 ·e−j2πn = e N/2 ·1 (5.20)
+The first reduction uses the power rule to split the exponential. The second reduction cancels the
+term N/2 in the second exponential. The final reduction uses that fact that n is a non-negative
+integer, and thus e−j2πn will always be a rotation of multiple of 2π. This means that this term is
+always equal to 1.
+Now let us tackle the second complex exponential, assistant 3: for (i = N − 1; i > 0; i−−) {
+shift reg[i] = shift reg[i − 1];
+}
+shift reg[0] = x;
+acc = 0;
+MAC:
+ Now try your best to Optimize the following code through inserting pragma hls lines
+#include <math.h>
+
+
+void kernel_correlation(int m,int n,float float_n,float data[100][80],float corr[80][80],float mean[80],float stddev[80])
+{
+  float eps = 0.1;
+  int i;
+  int j;
+  int k;
+
+{
+    
+    
+    
+    for (j = 0; j < 80; j++) {
+      mean[j] = 0.0;
+      
+      for (i = 0; i < 100; i++) {
+        mean[j] += data[i][j];
+      }
+      mean[j] /= float_n;
+    }
+    
+    
+    
+    for (j = 0; j < 80; j++) {
+      stddev[j] = 0.0;
+      
+      for (i = 0; i < 100; i++) {
+        stddev[j] += (data[i][j] - mean[j]) * (data[i][j] - mean[j]);
+      }
+      stddev[j] /= float_n;
+      stddev[j] = sqrt(stddev[j]);
+/* The following in an inelegant but usual way to handle
+			   near-zero std. dev. values, which below would cause a zero-
+			   divide. */
+      stddev[j] = (stddev[j] <= eps?1.0 : stddev[j]);
+    }
+    
+    
+    
+    for (i = 0; i < 100; i++) {
+      
+      for (j = 0; j < 80; j++) {
+        data[i][j] -= mean[j];
+        data[i][j] /= sqrt(float_n) * stddev[j];
+      }
+    }
+    
+    
+    
+    for (i = 0; i < 80 - 1; i++) {
+      corr[i][i] = 1.0;
+      
+      for (j = i + 1; j < 80; j++) {
+        corr[i][j] = 0.0;
+        
+        for (k = 0; k < 100; k++) {
+          corr[i][j] += data[k][i] * data[k][j];
+        }
+        corr[j][i] = corr[i][j];
+      }
+    }
+    corr[80 - 1][80 - 1] = 1.0;
+  }
+}

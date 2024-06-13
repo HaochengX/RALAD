@@ -1,0 +1,2 @@
+error: invalid argument '-std=c++11' not allowed with 'C'
+error: invalid argument '-fgnu89-inline' not allowed with 'C'

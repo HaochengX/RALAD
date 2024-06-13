@@ -1,0 +1,69 @@
+You are now given some HLS pragma insertion assistants
+assistant 1: for (i = N − 1; i > 0; i−−) {
+shift reg[i] = shift reg[i − 1];
+}
+shift reg[0] = x;
+acc = 0;
+MAC:, assistant 2: void spmv(int rowPtr[NUM ROWS+1], int columnIndex[NNZ],
+DTYPE values[NNZ], DTYPE y[SIZE], DTYPE x[SIZE])
+{
+L1: for (int i = 0; i < NUM ROWS; i++) {
+DTYPE y0 = 0;
+L2: for (int k = rowPtr[i]; k < rowPtr[i+1]; k++) {
+#pragma HLS unroll factor=8
+#pragma HLS pipeline
+y0 += values[k] ∗ x[columnIndex[k]];
+}
+y[i] = y0;
+}
+}
+Figure 6.2: The baseline code for sparse matrix vector (SpMV) multiplication, which performs the
+operation y = M·x. The variables rowPtr, columnIndex, and values hold M in CRS format. The
+first for loop iterates across the rows while the second nested for loop iterates across the columns
+of M by multiplying each non-zero element by the corresponding element in the vector x which
+results in one element in the resulting vector y.
+Given a 2-dimensional array representing a matrix, write the C code to convert the matrix
+to CRS form. Write the corresponding C code to convert the matrix in CRS form back to a
+2-dimensional array., assistant 3: for (j = 0; j < SIZE; j++) {
+sum += V In[j] ∗ M[i][j];
+}
+V Out[i] = sum;
+}
+}
+Figure 4.4: Simple code implementing a matrix-vector multiplication.
+4.3 Matrix-Vector Multiplication Optimizations
+Matrix-vector multiplication is the core computation of a DFT. The input time domain vector is
+multiplied by a matrix with fixed special values. The result is a vector that corresponds to the
+frequency domain representation of the input time domain signal.
+In this section, we look at the hardware implementation of matrix-vector multiplication. We
+break this operation down into its most basic form (see Figure 4.4). This allows us to better focus
+the discussion on the optimizations rather than deal with all the complexities of using functionally
+correct DFT code. We will build a DFT core in the next section.
+The code in Figure 4.4 provides an initial starting point for synthesizing this operation into
+hardware. We use a custom data type called BaseType that is currently mapped as a float.
+ Now try your best to Optimize the following code through inserting pragma hls lines
+void kernel_mvt(int n,float x1[120],float x2[120],float y_1[120],float y_2[120],float A[120][120])
+{
+  int i;
+  int j;
+{
+    
+    
+    
+    for (i = 0; i < 120; i++) {
+      
+      for (j = 0; j < 120; j++) {
+        x1[i] = x1[i] + A[i][j] * y_1[j];
+      }
+    }
+    
+    
+    
+    for (i = 0; i < 120; i++) {
+      
+      for (j = 0; j < 120; j++) {
+        x2[i] = x2[i] + A[j][i] * y_2[j];
+      }
+    }
+  }
+}

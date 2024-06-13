@@ -1,0 +1,41 @@
+
+****** Vitis HLS - High-Level Synthesis from C, C++ and OpenCL v2023.1 (64-bit)
+  **** SW Build 3854077 on May  4 2023
+  **** IP Build 3864474 on Sun May  7 20:36:21 MDT 2023
+  **** SharedData Build 3865790 on Sun May 07 13:33:03 MDT 2023
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source /tools/Xilinx/Vitis_HLS/2023.1/scripts/vitis_hls/hls.tcl -notrace
+INFO: [HLS 200-10] Running '/tools/Xilinx/Vitis_HLS/2023.1/bin/unwrapped/lnx64.o/vitis_hls'
+INFO: [HLS 200-10] For user 'haotian' on host 'reactor' (Linux_x86_64 version 5.15.0-101-generic) on Wed Jun 12 20:06:36 PDT 2024
+INFO: [HLS 200-10] On os Ubuntu 20.04.6 LTS
+INFO: [HLS 200-10] In directory '/home/haotian/RALAD'
+Sourcing Tcl script '/home/haotian/RALAD/Retrieve-code-gpt4/output-4/kernel_adi/kernel_adi.tcl'
+INFO: [HLS 200-1510] Running: open_project -reset kernel_adi 
+INFO: [HLS 200-10] Creating and opening project '/home/haotian/RALAD/kernel_adi'.
+INFO: [HLS 200-1510] Running: set_top kernel_adi 
+INFO: [HLS 200-1510] Running: add_files /home/haotian/RALAD/Retrieve-code-gpt4/kernel_adi/kernel_adi.c -cflags -std=c++11 
+INFO: [HLS 200-10] Adding design file '/home/haotian/RALAD/Retrieve-code-gpt4/kernel_adi/kernel_adi.c' to the project
+INFO: [HLS 200-1510] Running: open_solution -reset solution1 
+INFO: [HLS 200-10] Creating and opening solution '/home/haotian/RALAD/kernel_adi/solution1'.
+INFO: [HLS 200-10] Cleaning up the solution database.
+INFO: [HLS 200-1505] Using default flow_target 'vivado'
+Resolution: For help on HLS 200-1505 see www.xilinx.com/cgi-bin/docs/rdoc?v=2023.1;t=hls+guidance;d=200-1505.html
+INFO: [HLS 200-1510] Running: set_part xcu250-figd2104-2L-e 
+INFO: [HLS 200-1611] Setting target device to 'xcu250-figd2104-2L-e'
+INFO: [HLS 200-1510] Running: create_clock -period 5.0ns 
+INFO: [SYN 201-201] Setting up clock 'default' with a period of 5ns.
+INFO: [HLS 200-1510] Running: csynth_design 
+INFO: [HLS 200-111] Finished File checks and directory preparation: CPU user time: 0.08 seconds. CPU system time: 0 seconds. Elapsed time: 0.07 seconds; current allocated memory: 1.448 GB.
+INFO: [HLS 200-10] Analyzing design file '/home/haotian/RALAD/Retrieve-code-gpt4/kernel_adi/kernel_adi.c' ... 
+INFO: [HLS 200-111] Finished Command csynth_design CPU user time: 0.21 seconds. CPU system time: 0.18 seconds. Elapsed time: 0.4 seconds; current allocated memory: 0.457 MB.
+command 'ap_source' returned error code
+    while executing
+"source /home/haotian/RALAD/Retrieve-code-gpt4/output-4/kernel_adi/kernel_adi.tcl"
+    ("uplevel" body line 1)
+    invoked from within
+"uplevel \#0 [list source $arg] "
+
+INFO: [HLS 200-112] Total CPU user time: 4.7 seconds. Total CPU system time: 1.46 seconds. Total elapsed time: 6.06 seconds; peak allocated memory: 1.449 GB.
+INFO: [Common 17-206] Exiting vitis_hls at Wed Jun 12 20:06:41 2024...

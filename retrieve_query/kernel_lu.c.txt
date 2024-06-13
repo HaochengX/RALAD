@@ -1,0 +1,44 @@
+You are now given some HLS pragma insertion assistants
+assistant 1: int i;
+acc = 0;
+Shift Accum Loop:
+for (i = N − 1; i >= 0; i−−) {, assistant 2: for (i = N − 1; i > 0; i−−) {
+shift reg[i] = shift reg[i − 1];
+}
+shift reg[0] = x;
+acc = 0;
+MAC:, assistant 3: void matrixmul(int A[N][M], int B[M][P], int AB[N][P]) {
+#pragma HLS ARRAY RESHAPE variable=A complete dim=2
+#pragma HLS ARRAY RESHAPE variable=B complete dim=1
+/∗ for each row and column of AB ∗/
+row: for(int i = 0; i < N; ++i) {
+col: for(int j = 0; j < P; ++j) {
+#pragma HLS PIPELINE II=1
+/∗ compute (AB)i,j ∗/
+ Now try your best to Optimize the following code through inserting pragma hls lines
+void kernel_lu(int n,float A[120][120])
+{
+  int i;
+  int j;
+  int k;
+{
+    
+    
+    
+    for (i = 0; i < 120; i++) {
+      
+      for (j = 0; j < i; j++) {
+        for (k = 0; k < j; k++) {
+          A[i][j] -= A[i][k] * A[k][j];
+        }
+        A[i][j] /= A[j][j];
+      }
+      
+      for (j = i; j < 120; j++) {
+        for (k = 0; k < i; k++) {
+          A[i][j] -= A[i][k] * A[k][j];
+        }
+      }
+    }
+  }
+}

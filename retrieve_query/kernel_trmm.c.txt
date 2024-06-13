@@ -1,0 +1,72 @@
+You are now given some HLS pragma insertion assistants
+assistant 1: void matrixmul(int A[N][M], int B[M][P], int AB[N][P]) {
+#pragma HLS ARRAY RESHAPE variable=A complete dim=2
+#pragma HLS ARRAY RESHAPE variable=B complete dim=1
+/∗ for each row and column of AB ∗/
+row: for(int i = 0; i < N; ++i) {
+col: for(int j = 0; j < P; ++j) {
+#pragma HLS PIPELINE II=1
+/∗ compute (AB)i,j ∗/, assistant 2: void matmul_partition(int* in1, int* in2, int* out_r, int dim, int rep_count) { // Matrix Dimension. Assuming Square Matrix
+#pragma HLS INTERFACE m_axi port = in1 depth = 256
+#pragma HLS INTERFACE m_axi port = in2 depth = 256
+#pragma HLS INTERFACE m_axi port = out_r depth = 256
+
+    int A[MAX_DIM * MAX_DIM];
+    int B[MAX_DIM * MAX_DIM];
+    int C[MAX_DIM * MAX_DIM];
+// Cyclic Partition for A as matrix multiplication needs row-wise parallel
+// access
+#pragma HLS ARRAY_PARTITION variable = A dim = 1 cyclic factor = 16
+// Block Partition for B as matrix multiplication needs column-wise parallel
+// access
+#pragma HLS ARRAY_PARTITION variable = B dim = 1 block factor = 16
+
+// As A and B Matrix are partitioned with the factor of MAX_DIM, so to get
+// parallel row/column access, input square matrix[dimXdim] should be written
+// into local Array in MATRIX[MAX_DIM * MAX_DIM] format, assistant 3: void krnl_vmult(uint32_t* in1, uint32_t* in2, uint32_t* out, int vSize) {
+    static hls::stream<uint32_t> inStream1("input_stream_1");
+    static hls::stream<uint32_t> inStream2("input_stream_2");
+    static hls::stream<uint32_t> outStream("output_stream");
+#pragma HLS INTERFACE m_axi port = in1 bundle = gmem0 depth = 4096
+#pragma HLS INTERFACE m_axi port = in2 bundle = gmem1 depth = 4096
+#pragma HLS INTERFACE m_axi port = out bundle = gmem0 depth = 4096
+
+#pragma HLS dataflow
+    // dataflow pragma instruct compiler to run following three APIs in parallel
+    read_input(in1, inStream1, vSize);
+    read_input(in2, inStream2, vSize);
+    compute_mult(inStream1, inStream2, outStream, vSize);
+    write_result(out, outStream, vSize);
+}
+}
+ Now try your best to Optimize the following code through inserting pragma hls lines
+void kernel_trmm(int m,int n,float alpha,float A[60][60],float B[60][80])
+{
+  int i;
+  int j;
+  int k;
+//BLAS parameters
+//SIDE   = 'L'
+//UPLO   = 'L'
+//TRANSA = 'T'
+//DIAG   = 'U'
+// => Form  B := alpha*A**T*B.
+// A is MxM
+// B is MxN
+{
+    
+    
+    
+    for (i = 0; i < 60; i++) {
+      
+      
+      
+      for (j = 0; j < 80; j++) {
+        for (k = i + 1; k < 60; k++) {
+          B[i][j] += A[k][i] * B[k][j];
+        }
+        B[i][j] = alpha * B[i][j];
+      }
+    }
+  }
+}

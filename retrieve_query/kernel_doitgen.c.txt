@@ -1,0 +1,68 @@
+You are now given some HLS pragma insertion assistants
+assistant 1: void process(DATA_T din, DATA_T* dout0, DATA_T* dout1) {
+
+#pragma HLS array_reshape variable = sr complete
+#pragma HLS array_reshape variable = coeff complete dim = 0
+
+        acc = 0;
+    LOOP_MAC:
+        for (int i = 0; i < l_NONZERO - 1; i++) {
+            acc = MAC_preadd(sr[i], sr[l_TDL - 1 - i], coeff[i], acc);
+        }
+
+    LOOP_SR:
+        for (int i = l_TDL - 1; i > 0; i--) {
+            sr[i] = sr[i - 1];
+        }
+
+        sr[0] = din;
+
+        *dout0 = acc;
+        *dout1 = coeff[l_NONZERO - 1] * sr[l_NONZERO - 1];
+    }, assistant 2: recipes in C. Press Syndicate of the University of Cambridge, New York, 1992.
+[26] Daniel D. Gajski, Nikil D. Dutt, Allen C.H. Wu, and Steve Y.L. Lin. High-Level Synthesis:
+Introduction to Chip and System Design. Springer Science & Business Media, 2012.
+[27] W Morven Gentleman and Gordon Sande. Fast fourier transforms: for fun and profit. In
+Proceedings of the November 7-10, 1966, fall joint computer conference, pages 563–578. ACM,
+1966.
+226BIBLIOGRAPHY BIBLIOGRAPHY
+[28] Nivia George, HyoukJoong Lee, David Novo, Tiark Rompf, Kevin J. Brown, Arvind K. Su-
+jeeth, Martin Odersky, Kunle Olukotun, and Paolo Ienne. Hardware system synthesis from
+domain-specific languages. In Proceedings of the International Field Programmable Logic and
+Applications Conference (FPL), pages 1–8. IEEE, 2014.
+[29] Sumit Gupta, Rajesh Gupta, Nikil Dutt, and Alexandru Nicolau. SPARK: A Parallelizing
+Approach to the High-level Synthesis of Digital Circuits. Kluwer, 2004. ISBN 1-4020-7837-4., assistant 3: [3] Hassan M. Ahmed, Jean-Marc Delosme, and Martin Morf. Highly concurrent computing
+structures for matrix arithmetic and signal processing. IEEE Computer, 15(1):65–82, 1982.
+[4] Raymond J. Andraka. Building a high performance bit-serial processor in an FPGA. In
+Proceedings of Design SuperCon, volume 96, pages 1–5, 1996.
+[5] Oriol Arcas-Abella et al. An empirical evaluation of high-level synthesis languages and tools
+ Now try your best to Optimize the following code through inserting pragma hls lines
+
+void kernel_doitgen(int nr,int nq,int np,float A[25][20][30],float C4[30][30],float sum[30])
+{
+  int r;
+  int q;
+  int p;
+  int s;
+{
+    
+    
+    for (r = 0; r < 25; r++) {
+      
+      
+      for (q = 0; q < 20; q++) {
+        
+        
+        for (p = 0; p < 30; p++) {
+          sum[p] = 0.0;
+          for (s = 0; s < 30; s++) {
+            sum[p] += A[r][q][s] * C4[s][p];
+          }
+        }
+        for (p = 0; p < 30; p++) {
+          A[r][q][p] = sum[p];
+        }
+      }
+    }
+  }
+}

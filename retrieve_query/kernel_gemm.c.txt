@@ -1,0 +1,60 @@
+You are now given some HLS pragma insertion assistants
+assistant 1: void matrixmul(int A[N][M], int B[M][P], int AB[N][P]) {
+#pragma HLS ARRAY RESHAPE variable=A complete dim=2
+#pragma HLS ARRAY RESHAPE variable=B complete dim=1
+/∗ for each row and column of AB ∗/
+row: for(int i = 0; i < N; ++i) {
+col: for(int j = 0; j < P; ++j) {
+#pragma HLS PIPELINE II=1
+/∗ compute (AB)i,j ∗/, assistant 2: [3] Hassan M. Ahmed, Jean-Marc Delosme, and Martin Morf. Highly concurrent computing
+structures for matrix arithmetic and signal processing. IEEE Computer, 15(1):65–82, 1982.
+[4] Raymond J. Andraka. Building a high performance bit-serial processor in an FPGA. In
+Proceedings of Design SuperCon, volume 96, pages 1–5, 1996.
+[5] Oriol Arcas-Abella et al. An empirical evaluation of high-level synthesis languages and tools, assistant 3: can propagate itself up through the hierarchy of functions. The takeaway is that it is extremely
+important that the designer understand the effects of the optimizations on the algorithm, both
+locally and globally.
+116Chapter 6
+Sparse Matrix Vector Multiplication
+Sparse matrix vector multiplication (SpMV) takes a sparse matrix, i.e., one in which most of its
+elements are zero, and multiplies it by a vector. The vector itself may be sparse as well, but often
+it is dense. This is a common operation in scientific applications, economic modeling, data mining,
+and information retrieval. For example, it is used as an iterative method for solving sparse linear
+systems and eigenvalue problems. It is an operation in PageRank and it is also used in computer
+vision, e.g., image reconstruction.
+This chapter introduces several new HLS concepts, and reinforces some previously discussed
+optimization. One goal of the chapter is to introduce a more complex data structure. We use a
+ Now try your best to Optimize the following code through inserting pragma hls lines
+
+void kernel_gemm(int ni,int nj,int nk,float alpha,float beta,float C[60][70],float A[60][80],float B[80][70])
+{
+  int i;
+  int j;
+  int k;
+//BLAS PARAMS
+//TRANSA = 'N'
+//TRANSB = 'N'
+// => Form C := alpha*A*B + beta*C,
+//A is NIxNK
+//B is NKxNJ
+//C is NIxNJ
+{
+    
+    
+    
+    for (i = 0; i < 60; i++) {
+      
+      for (j = 0; j < 70; j++) {
+        C[i][j] *= beta;
+      }
+      
+      
+      
+      for (k = 0; k < 80; k++) {
+        
+        for (j = 0; j < 70; j++) {
+          C[i][j] += alpha * A[i][k] * B[k][j];
+        }
+      }
+    }
+  }
+}

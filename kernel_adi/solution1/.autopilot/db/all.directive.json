@@ -1,0 +1,19 @@
+[{
+    "id": 0,
+    "insert_position": "",
+    "functionName": "kernel_adi",
+    "label": "",
+    "functionLabel": "",
+    "success": false,
+    "slx": false,
+    "ifcond": "",
+    "sourceFile": "\/home\/haotian\/RALAD\/Retrieve-code-gpt4\/output-4\/kernel_adi\/kernel_adi.tcl",
+    "sourceLine": 10,
+    "pragma": {
+      "name": "TOP",
+      "option": [{
+          "name": "name",
+          "value": "kernel_adi"
+        }]
+    }
+  }]

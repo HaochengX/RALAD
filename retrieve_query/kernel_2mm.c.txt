@@ -1,0 +1,70 @@
+You are now given some HLS pragma insertion assistants
+assistant 1: void krnl_vmult(uint32_t* in1, uint32_t* in2, uint32_t* out, int vSize) {
+    static hls::stream<uint32_t> inStream1("input_stream_1");
+    static hls::stream<uint32_t> inStream2("input_stream_2");
+    static hls::stream<uint32_t> outStream("output_stream");
+#pragma HLS INTERFACE m_axi port = in1 bundle = gmem0 depth = 4096
+#pragma HLS INTERFACE m_axi port = in2 bundle = gmem1 depth = 4096
+#pragma HLS INTERFACE m_axi port = out bundle = gmem0 depth = 4096
+
+#pragma HLS dataflow
+    // dataflow pragma instruct compiler to run following three APIs in parallel
+    read_input(in1, inStream1, vSize);
+    read_input(in2, inStream2, vSize);
+    compute_mult(inStream1, inStream2, outStream, vSize);
+    write_result(out, outStream, vSize);
+}
+}, assistant 2: void firI1(data t ∗y, data t x);
+void firQ1(data t ∗y, data t x);
+void firI2(data t ∗y, data t x);
+void firQ2(data t ∗y, data t x);, assistant 3: for computation. Larger FPGAs can have millions of these programmable logic elements.
+How would you program the 2-LUT from Figure 1.1 to implement an XOR gate? An OR
+gate? How many programming bits does an n input (n-LUT) require?
+Howmanyuniquefunctionscana2-LUTbeprogrammedtoimplement? Howmanyunique
+functions can a n input (n-LUT) implement?
+The FF is the basic memory element for the FPGA. They are typically co-located with a
+LUTs. LUTs can be replicated and combined with FFs and other specialized functions (e.g., a
+full adder) to create a more complex logic element called a configurable logic block (CLB), logic
+array block (LAB), or slice depending on the vendor or design tool. We use the term slice since it
+is the resource reported by the Vivado(cid:13)R HLS tool. A slice is a small number of LUTs, FFs and
+multiplexers combined to make a more powerful programmable logic element. The exact number
+ Now try your best to Optimize the following code through inserting pragma hls lines
+
+void kernel_2mm(int ni,int nj,int nk,int nl,float alpha,float beta,float tmp[40][50],float A[40][70],float B[70][50],float C[50][80],float D[40][80])
+{
+  int i;
+  int j;
+  int k;
+{
+    
+    
+    
+    for (i = 0; i < 40; i++) {
+      
+      
+      
+      for (j = 0; j < 50; j++) {
+        tmp[i][j] = 0.0;
+        
+        for (k = 0; k < 70; ++k) {
+          tmp[i][j] += alpha * A[i][k] * B[k][j];
+        }
+      }
+    }
+    
+    
+    
+    for (i = 0; i < 40; i++) {
+      
+      
+      
+      for (j = 0; j < 80; j++) {
+        D[i][j] *= beta;
+        
+        for (k = 0; k < 50; ++k) {
+          D[i][j] += tmp[i][k] * C[k][j];
+        }
+      }
+    }
+  }
+}

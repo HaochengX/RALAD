@@ -1,0 +1,70 @@
+You are now given some HLS pragma insertion assistants
+assistant 1: for (i = N − 1; i > 0; i−−) {
+shift reg[i] = shift reg[i − 1];
+}
+shift reg[0] = x;
+acc = 0;
+MAC:, assistant 2: int wi, wj;
+if (i < 1 − outrow) wi = 1 − outrow;
+else if (i >= MAX HEIGHT − outrow + 1) wi = MAX HEIGHT − outrow;
+else wi = i;, assistant 3: void bypass(int tmp1[128], int tmp2[128], int tmp3[128]) {
+    //	static int j;
+
+    int buff[127];
+    for (int i = 0; i < 128; i++) {
+        tmp3[i] = tmp1[i] + tmp2[i];
+    }
+}
+
+void pass(int tmp2[128], int tmp4[128]) {
+    //	static int j;
+
+    int buff[127];
+    for (int i = 0; i < 128; i++) {
+
+        tmp4[i] = tmp2[i];
+    }
+}
+
+void double_pass(int a[128], int b[128], int tmp1[128], int tmp2[128]) {
+    static int j;
+    for (int i = 0; i < 128; i++) {
+        j++;
+        tmp1[i] = a[i];
+        tmp2[i] = b[i];
+    }
+}
+
+void dut(int a[128], int b[128], int tmp3[128]) {
+#pragma HLS DATAFLOW
+
+    int tmp1[128], tmp2[128], tmp4[128];
+
+    double_pass(a, b, tmp1, tmp2);
+    pass(tmp2, tmp4);
+    bypass(tmp1, tmp4, tmp3);
+}
+ Now try your best to Optimize the following code through inserting pragma hls lines
+
+void kernel_floyd_warshall(int n,int path[180][180])
+{
+  int i;
+  int j;
+  int k;
+{
+    
+    
+    
+    for (k = 0; k < 180; k++) {
+      
+      
+      
+      for (i = 0; i < 180; i++) {
+        
+        for (j = 0; j < 180; j++) {
+          path[i][j] = (path[i][j] < path[i][k] + path[k][j]?path[i][j] : path[i][k] + path[k][j]);
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,49 @@
+You are now given some HLS pragma insertion assistants
+assistant 1: for (i = N − 1; i > 0; i−−) {
+shift reg[i] = shift reg[i − 1];
+}
+shift reg[0] = x;
+acc = 0;
+MAC:, assistant 2: void matrixmul(int A[N][M], int B[M][P], int AB[N][P]) {
+#pragma HLS ARRAY RESHAPE variable=A complete dim=2
+#pragma HLS ARRAY RESHAPE variable=B complete dim=1
+/∗ for each row and column of AB ∗/
+row: for(int i = 0; i < N; ++i) {
+col: for(int j = 0; j < P; ++j) {
+#pragma HLS PIPELINE II=1
+/∗ compute (AB)i,j ∗/, assistant 3: void matmatmul sw(DTYPE A[SIZE][SIZE], DTYPE B[SIZE][SIZE],
+DTYPE out[SIZE][SIZE]){
+DTYPE sum = 0;
+for(int i = 0; i < SIZE; i++){
+for(int j = 0; j<SIZE; j++){
+sum = 0;
+for(int k = 0; k < SIZE; k++){
+sum = sum + A[i][k] ∗ B[k][j];
+}
+out[i][j] = sum;
+}
+}
+}
+int main() {
+ Now try your best to Optimize the following code through inserting pragma hls lines
+
+void kernel_gesummv(int n,float alpha,float beta,float A[90][90],float B[90][90],float tmp[90],float x[90],float y[90])
+{
+  int i;
+  int j;
+{
+    
+    
+    
+    for (i = 0; i < 90; i++) {
+      tmp[i] = 0.0;
+      y[i] = 0.0;
+      
+      for (j = 0; j < 90; j++) {
+        tmp[i] = A[i][j] * x[j] + tmp[i];
+        y[i] = B[i][j] * x[j] + y[i];
+      }
+      y[i] = alpha * tmp[i] + beta * y[i];
+    }
+  }
+}
